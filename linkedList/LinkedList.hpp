@@ -50,12 +50,15 @@ bool LinkedList<T>::search(T value) const
 	  if(temp->getValue()==value)
 	  {
 	    isFound = true;
+	    temp=nullptr;
+	    return(isFound);
 	  }
 	  else
 	  {
 	    temp = temp->getNext();
 	  }
         }
+	temp=nullptr;
 	return(isFound);
 }
 
@@ -118,19 +121,26 @@ bool LinkedList<T>::removeBack()
 		Fix this method
 	*/
 	lastNode = m_front;
-	while(lastNode!=nullptr)
-        {
-	  secondintoLast = lastNode;
-	  lastNode=lastNode->getNext();
-        }
-	if(secondintoLast!=nullptr)
-        {
-	  secondintoLast=nullptr;
-	  delete secondintoLast;
-	  m_size--;
-	  isRemoved=true;
-        }
-	return(isRemoved);
+	if(isEmpty())
+	{
+	   return(isRemoved);
+	}
+	else
+	{
+		while(lastNode->getNext()!=nullptr)
+        	{
+	  	   secondintoLast = lastNode;
+	  	   lastNode=lastNode->getNext();
+        	}
+		delete lastNode;
+		lastNode = nullptr;
+		secondintoLast->setNext(nullptr);
+		m_size--;
+		isRemoved=true;
+		return(isRemoved);
+	}
+	
+
 }	
 
 template <typename T>
